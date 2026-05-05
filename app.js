@@ -12,8 +12,15 @@ const dbURI =
   "mongodb+srv://babe:test1234@cluster0.33ih9cg.mongodb.net/note-tutse?appName=Cluster0";
 mongoose
   .connect(dbURI)
-  .then((result) => app.listen(3000), console.log("conected to database"))
-  .catch((err) => console.log("err"));
+  .then((result) => {
+    console.log("connected to database");
+    
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));
 
 // rejester view engine
 
