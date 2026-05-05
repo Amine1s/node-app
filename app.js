@@ -8,8 +8,7 @@ const blogRoutes = require("./routes/blogRoutes");
 
 const app = express();
 //conect to mongodb
-const dbURI =
-  "mongodb+srv://babe:test1234@cluster0.33ih9cg.mongodb.net/note-tutse?appName=Cluster0";
+const dbURI = process.env.MONGO_URI;
 mongoose
   .connect(dbURI)
   .then(() => {
