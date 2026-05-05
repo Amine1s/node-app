@@ -9,19 +9,20 @@ const blogRoutes = require("./routes/blogRoutes");
 const app = express();
 //conect to mongodb
 const dbURI = process.env.MONGO_URI;
+const PORT = process.env.PORT || 3000;
+
 mongoose
-  .connect(dbURI)
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("connected to database");
-
-    const PORT = process.env.PORT || 3000;
-
+  })
+  .catch((err) => {
+    console.log("Mongo error:", err);
+  })
+  .finally(() => {
     app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error("DB connection error:", err);
   });
 
 // rejester view engine
