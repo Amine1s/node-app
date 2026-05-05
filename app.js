@@ -21,7 +21,9 @@ mongoose
       console.log(`Server running on port ${PORT}`);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.error("DB connection error:", err);
+  });
 
 // rejester view engine
 
