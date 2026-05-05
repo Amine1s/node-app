@@ -15,4 +15,4 @@ COPY . .
 EXPOSE 3000
 
 # IMPORTANT: This must match your start script "node server.js"
-CMD ["node", "server.js"]
+CMD ["node", "app.js"]
