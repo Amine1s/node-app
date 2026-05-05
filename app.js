@@ -12,11 +12,12 @@ const dbURI =
   "mongodb+srv://babe:test1234@cluster0.33ih9cg.mongodb.net/note-tutse?appName=Cluster0";
 mongoose
   .connect(dbURI)
-  .then((result) => {
+  .then(() => {
     console.log("connected to database");
-    
+
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
+
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`Server running on port ${PORT}`);
     });
   })
