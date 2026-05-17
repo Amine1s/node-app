@@ -1,24 +1,136 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./partials/head.ejs')  %>
-  <body>
-    <%- include('./partials/nav.ejs')  %>
-    <div class="blogs content">
-      <h2>All Blogs</h2>
-<% if (blogs.length > 0) { %>
-  <% blogs.forEach(blog => { %>
-    <a class="single" href="/blogs/<%= blog._id%>">
-      <h3 class="title"><%= blog.title %></h3>
-      <p class="snippet"><%= blog.snippet %></p>
-    </a>
-  <% }) %>
 
-<% } else { %>
+<%- include('./partials/head.ejs') %>
 
-  <p>No blogs yet...</p>
+<body>
 
-<% } %>
+  <%- include('./partials/nav.ejs') %>
+  <div class="hero">
+  <h2>Welcome to My Articles test app </h2>
+  <p>Sharing ideas, code, and knowledge</p>
+</div>
+
+  <div class="blogs-container">
+
+    <h1 class="page-title"> Latest Articles</h1>
+<form class="search-form" action="/blogs" method="GET">
+
+  <input
+    type="text"
+    name="search"
+    id="searchInput"
+    placeholder="Search blogs..."
+    value="<%= search || '' %>"
+  />
+<select name="category" id="categoryFilter">
+
+  <option value="">All Categories</option>
+
+  <option value="Cultures">Cultures</option>
+
+  <option value="AI">AI</option>
+
+  <option value="Design">Design</option>
+
+  <option value="Technology">Technology</option>
+
+</select>
+  <button type="submit">
+    Search
+  </button>
+
+</form>
+    <div class="blogs-grid" id="blogsContainer">
+
+      <% if (blogs && blogs.length) { %>
+
+        <% blogs.forEach(blog => { %>
+
+          <a class="blog-card" href="/blogs/<%= blog._id %>">
+            
+            <span class="category">
+                <%= blog.category %>
+            </span>
+
+            <h2 class="blog-title"><%= blog.title %></h2>
+
+            <p class="blog-snippet">
+              <%= blog.snippet %>
+            </p>
+
+            <span class="read-more">Read more →</span>
+
+          </a>
+
+        <% }) %>
+
+      <% } else { %>
+
+        <div class="empty-state">
+          <h3>No Articles yet 😅</h3>
+          <p>Be the first to create one!</p>
+        </div>
+
+      <% } %>
+
     </div>
-    <%- include('./partials/footer.ejs')  %>
-  </body>
+
+  </div>
+<!-- Live search script -->
+<script>
+
+const searchInput = document.getElementById("searchInput");
+const blogsContainer = document.getElementById("blogsContainer");
+
+searchInput.addEventListener("input", async () => {
+
+  const search = searchInput.value;
+const category =
+  document.getElementById("categoryFilter").value;
+  try {
+
+    const response = await fetch(
+  `/blogs/search/live?search=${search}&category=${category}`
+);
+
+    const blogs = await response.json();
+
+    blogsContainer.innerHTML = "";
+
+    if (blogs.length === 0) {
+
+      blogsContainer.innerHTML = `
+        <div class="empty-state">
+          <h3>No blogs found 😢</h3>
+        </div>
+      `;
+
+      return;
+    }
+
+    blogs.forEach(blog => {
+
+      blogsContainer.innerHTML += `
+        <a class="blog-card" href="/blogs/${blog._id}">
+          <h2 class="blog-title">${blog.title}</h2>
+          <p class="blog-snippet">${blog.snippet}</p>
+          <span class="read-more">Read more →</span>
+        </a>
+      `;
+
+    });
+
+  } catch (err) {
+    console.log(err);
+  }
+
+});
+
+</script>
+
+  <%- include('./partials/footer.ejs') %>
+
+</body>
 </html>

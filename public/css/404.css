@@ -1,0 +1,33 @@
+.error-page {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.error-page h1 {
+  font-size: 80px;
+  color: #ef4444;
+  animation: bounce 1s infinite alternate;
+  margin-bottom: 10px;
+}
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+.error-page h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.error-page p {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #4f46e5;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}

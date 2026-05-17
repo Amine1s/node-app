@@ -3,13 +3,14 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const { result } = require("lodash");
 const blogRoutes = require("./routes/blogRoutes");
+const methodOverride = require("method-override");
+require("dotenv").config();
 
 //set up exprees app
 
 const app = express();
 //conect to mongodb
-const dbURI =
-  "mongodb+srv://babe:test1234@cluster0.33ih9cg.mongodb.net/note-tutse?appName=Cluster0";
+const dbURI = process.env.DB_URI;
 mongoose
   .connect(dbURI)
   .then((result) => {
@@ -30,6 +31,8 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+
+app.use(methodOverride("_method"));
 
 //routes
 
